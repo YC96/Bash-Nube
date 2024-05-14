@@ -10,6 +10,11 @@ for i in $(seq 1 3); do
 
     lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm install"
 
+    lxc exec "backend${i}" -- /bin/bash -c "touch container.txt"
+
+    lxc exec "backend${i}" -- /bin/bash -c "cat << EOF > /container.txt
+    CONTAINERbackend${i}"
+
     # production mode
     lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm run start:prod"
 done
