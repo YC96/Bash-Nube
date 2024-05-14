@@ -10,11 +10,17 @@ for i in $(seq 1 3); do
 
     lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm install"
 
-    lxc exec "backend${i}" -- /bin/bash -c "apt install nginx -y"
+    # production mode
+    lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm run start:prod"
+done
 
-    lxc exec "backend${i}" -- /bin/bash -c "cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf__bak"
+lxc launch ubuntu:22.04 loadbalancer
 
-    lxc exec "backend${i}" -- /bin/bash -c "cat << EOF > /etc/nginx/nginx.conf
+lxc exec loadbalancer -- /bin/bash -c "apt install nginx -y"
+
+lxc exec loadbalancer -- /bin/bash -c "cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf__bak"
+
+lxc exec loadbalancer -- /bin/bash -c "cat << EOF > /etc/nginx/nginx.conf
 user www-data;
 worker_processes auto;
 pid /run/nginx.pid;
@@ -42,12 +48,6 @@ http {
 }
 EOF"
 
-    lxc exec "backend${i}" -- /bin/bash -c "sudo nginx -t"
+lxc exec loadbalancer -- /bin/bash -c "sudo nginx -t"
 
-    lxc exec "backend${i}" -- /bin/bash -c "sudo systemctl restart nginx"
-
-    # production mode
-    lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm run start:prod"
-done
-
-
+lxc exec loadbalancer -- /bin/bash -c "sudo systemctl restart nginx"
