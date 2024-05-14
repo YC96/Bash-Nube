@@ -33,9 +33,9 @@ events {
 
 http {
     upstream myapp1 {
-        server c1.lxd;
-        server c2.lxd;
-        server c3.lxd;
+        server backend1.lxd;
+        server backend2.lxd;
+        server backend3.lxd;
     }
 
     server {
