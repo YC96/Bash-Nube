@@ -13,4 +13,3 @@ for i in $(seq 1 3); do
     # production mode
     lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm run start:prod"
 done
-
