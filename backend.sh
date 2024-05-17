@@ -14,6 +14,26 @@ for i in $(seq 1 3); do
 
     # production mode
     lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm run start:prod"
+
+    #error fix
+    lxc exec "backend${i}" -- /bin/bash -c"curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash"
+
+    lxc exec "backend${i}" -- /bin/bash -c "export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh""
+
+    lxc exec "backend${i}" -- /bin/bash -c " command -v nvm"
+
+    lxc exec "backend${i}" -- /bin/bash -c "nvm install --lts"
+
+    lxc exec "backend${i}" -- /bin/bash -c "nvm use --lts"
+
+    lxc exec "backend${i}"-- /bin/bash -c "node -v"
+
+    lxc exec "backend${i}"-- /bin/bash -c "rm -rf node_modules package-lock.json"
+
+    lxc exec "backend${i}"-- /bin/bash -c "npm install"
+
+    lxc exec "backend${i}"-- /bin/bash -c "npm run start:dev" 
 done
 
 lxc launch ubuntu:22.04 loadbalancer
