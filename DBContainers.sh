@@ -29,7 +29,6 @@ for container in "${containers[@]}"; do
     lxc exec $container -- bash -c "cat << EOF | tee -a /etc/mongod.conf
 replication:
     replSetName: myReplicaSet
-bindIp: 0.0.0.0  # Permitir conexiones desde cualquier IP
 EOF"
 
     echo "Iniciando MongoDB en $container..."
