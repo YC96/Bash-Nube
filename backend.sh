@@ -14,11 +14,14 @@ for i in $(seq 1 3); do
 
     lxc exec "backend${i}" -- /bin/bash -c " command -v nvm"
 
-    lxc exec "backend${i}" -- /bin/bash -c "nvm install --lts"
+    #lxc exec "backend${i}" -- /bin/bash -c "nvm install --lts"
 
-    lxc exec "backend${i}" -- /bin/bash -c "nvm use --lts"
+    #lxc exec "backend${i}" -- /bin/bash -c "nvm use --lts"
 
-    lxc exec "backend${i}"-- /bin/bash -c "node -v"
+    #lxc exec "backend${i}"-- /bin/bash -c "node -v"
+
+    lxc exec "backend${i}" -- /bin/bash -c "nvm install node"
+
 
     #lxc exec "backend${i}"-- /bin/bash -c "rm -rf node_modules package-lock.json"
 
