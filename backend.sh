@@ -6,15 +6,6 @@ for i in $(seq 1 3); do
 
     lxc exec "backend${i}" -- /bin/bash -c "apt-get update && apt-get install -y npm"
 
-    lxc exec "backend${i}" -- /bin/bash -c "npm install -g @nestjs/cli"
-
-    lxc exec "backend${i}" -- /bin/bash -c "git clone https://github.com/manuelenrq9/CRUDubuntu.git && ls"
-
-    lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm install"
-
-    # production mode
-    lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm run start:prod"
-
     #error fix
     lxc exec "backend${i}" -- /bin/bash -c"curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash"
 
@@ -29,11 +20,20 @@ for i in $(seq 1 3); do
 
     lxc exec "backend${i}"-- /bin/bash -c "node -v"
 
-    lxc exec "backend${i}"-- /bin/bash -c "rm -rf node_modules package-lock.json"
+    #lxc exec "backend${i}"-- /bin/bash -c "rm -rf node_modules package-lock.json"
 
-    lxc exec "backend${i}"-- /bin/bash -c "npm install"
+    #lxc exec "backend${i}"-- /bin/bash -c "npm install"
 
-    lxc exec "backend${i}"-- /bin/bash -c "npm run start:dev" 
+    #
+
+   #lxc exec "backend${i}" -- /bin/bash -c "npm install -g @nestjs/cli"
+
+    lxc exec "backend${i}" -- /bin/bash -c "git clone https://github.com/manuelenrq9/CRUDubuntu.git && ls"
+
+    lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm install"
+
+    # production mode
+    lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm run start:dev"
 done
 
 lxc launch ubuntu:22.04 loadbalancer
