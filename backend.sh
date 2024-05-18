@@ -7,20 +7,22 @@ for i in $(seq 1 3); do
     lxc exec "backend${i}" -- /bin/bash -c "apt-get update && apt-get install -y npm"
 
     #error fix
-    lxc exec "backend${i}" -- /bin/bash -c"curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash"
+    lxc exec "backend${i}" -- /bin/bash -c "sudo apt install curl"
+
+    lxc exec "backend${i}" -- /bin/bash -c "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash && source ~/.bashrc"
 
     lxc exec "backend${i}" -- /bin/bash -c "export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh""
 
-    lxc exec "backend${i}" -- /bin/bash -c " command -v nvm"
+    #lxc exec "backend${i}" -- /bin/bash -c " command -v nvm"
 
-    #lxc exec "backend${i}" -- /bin/bash -c "nvm install --lts"
+    lxc exec "backend${i}" -- /bin/bash -c "nvm install --lts"
 
-    #lxc exec "backend${i}" -- /bin/bash -c "nvm use --lts"
+    lxc exec "backend${i}" -- /bin/bash -c "nvm use --lts"
 
     #lxc exec "backend${i}"-- /bin/bash -c "node -v"
 
-    lxc exec "backend${i}" -- /bin/bash -c "nvm install node"
+    #lxc exec "backend${i}" -- /bin/bash -c "nvm install node"
 
 
     #lxc exec "backend${i}"-- /bin/bash -c "rm -rf node_modules package-lock.json"
@@ -29,7 +31,7 @@ for i in $(seq 1 3); do
 
     #
 
-   #lxc exec "backend${i}" -- /bin/bash -c "npm install -g @nestjs/cli"
+    lxc exec "backend${i}" -- /bin/bash -c "npm install -g @nestjs/cli"
 
     lxc exec "backend${i}" -- /bin/bash -c "git clone https://github.com/manuelenrq9/CRUDubuntu.git && ls"
 
