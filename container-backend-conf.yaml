@@ -1,18 +1,20 @@
 #cloud-config
 packages:
-- nodejs - npm
+  - nodejs 
+  - npm
+
 runcmd:
-- npm install -g n
-- n latest
-- apt-get install -y git -|
-git_clone_retry() { local retries=0
-local max_retries=3 local interval=20
-until git clone https://github.com/APalaciosQ/API-Computacion-Nube backend || [ $retries -eq $max_retries ]; do
-retries=$((retries+1))
-sleep $interval done
-}
+  - npm install -g n
+  - n latest
+  - apt-get install -y git 
+  - |
+  git_clone_retry() { 
+    local retries=0
+    local max_retries=3 
+    local interval=20
+    until git clone https://github.com/manuelenrq9/CRUDubuntu.git backend || [ $retries -eq $max_retries ]; do
+    retries=$((retries+1))
+    sleep $interval 
+    done
+  }
 git_clone_retry EOF
-# Creamamos los contenedores del backend con el archivo cloud-init que acabamos de crear
-for i in {1..3}; do
-lxc launch ubuntu:22.04 backend$i --config cloud-init.user-data="$(cat container-backend-conf.yaml)"
-done
