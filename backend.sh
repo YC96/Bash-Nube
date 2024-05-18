@@ -41,7 +41,7 @@ for i in $(seq 1 3); do
     lxc exec "backend${i}" -- /bin/bash -c "cd CRUDubuntu && npm run start:dev"
 done
 
-lxc launch ubuntu:22.04 loadbalancer
+lxc launch ubuntu:jammy loadbalancer
 
 lxc exec loadbalancer -- /bin/bash -c "apt install nginx -y"
 
@@ -70,3 +70,5 @@ proxy_pass http://myapp1;
 }
 }
 EOF"
+
+lxc exec loadbalancer -- /bin/bash -c "sudo systemctl restart nginx"
