@@ -10,21 +10,22 @@ worker_processes auto;
 pid /run/nginx.pid;
 include /etc/nginx/modules-enabled/*.conf;
 events {
-worker_connections 768;
-# multi_accept on;
+        worker_connections 768;
+        # multi_accept on;
 }
+
 http {
-upstream myapp1 {
-server backend1.lxd;
-server backend2.lxd;
-server backend3.lxd;
-}
-server {
-listen 80;
-location / {
-proxy_pass http://myapp1;
-}
-}
+        upstream myapp1 {
+                server backend1.lxd;
+                server backend2.lxd;
+                server backend3.lxd;
+        }
+        server {
+                listen 3000;
+                location / {
+                        proxy_pass http://myapp1;
+                }
+        }       
 }
 EOF"
 
